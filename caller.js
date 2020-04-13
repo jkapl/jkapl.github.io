@@ -25,11 +25,6 @@ let receiver = new RTCPeerConnection(server);
 
 // Caller
 async function getVideo () {
-  let sessDescription = await caller.createOffer();
-  console.log(JSON.stringify(sessDescription))
-
-  caller.setLocalDescription(sessDescription)
-
   const stream = await navigator.mediaDevices.getUserMedia( { video: true });
   gotStream(stream);
 }
@@ -46,10 +41,10 @@ async function gotStream (stream) {
   //   caller.setLocalDescription(offer);
   // });
 
-  // let sessDescription = await caller.createOffer();
-  // console.log(JSON.stringify(sessDescription))
+  let sessDescription = await caller.createOffer();
+  console.log(JSON.stringify(sessDescription))
 
-  // caller.setLocalDescription(sessDescription)
+  caller.setLocalDescription(sessDescription)
 
   caller.onicecandidate = e => {
     if (!e.candidate) return
