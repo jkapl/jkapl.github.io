@@ -88,7 +88,7 @@ async function receiverSendVideo() {
   //   caller.setLocalDescription(offer);
   // });
 
-  let sessDescription = await receiver.createAnswer();
+  let sessDescription = await receiver.createAnswer({offerToReceiveVideo: 1});
   console.log(JSON.stringify(sessDescription))
 
   receiver.setLocalDescription(sessDescription)
