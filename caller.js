@@ -106,7 +106,7 @@ async function receiverSendVideo() {
   // };
 
   receiver.ontrack = e => {
-    yourVideo.srcObject = e.streams[0];
+    yourVideo2.srcObject = e.streams[0];
   }
 
   // event.preventDefault();  
