@@ -24,14 +24,16 @@ let caller = new RTCPeerConnection(server);
 let receiver = new RTCPeerConnection(server);
 
 // Caller
-async function getVideo () {
-  const stream = await navigator.mediaDevices.getUserMedia( { video: true });
-  gotStream(stream);
-}
+// async function getVideo () {
+//   const stream = await navigator.mediaDevices.getUserMedia( { video: true });
+//   gotStream(stream);
+// }
 
-async function gotStream (stream) {
+async function call () {
+
+  const stream = await navigator.mediaDevices.getUserMedia( { video: true });
   // let caller = new RTCPeerConnection(server);
-  console.log('gotStream')
+  console.log('calling')
   myVideo.srcObject = stream;
 
   stream.getTracks().forEach(track => caller.addTrack(track, stream));
@@ -50,7 +52,7 @@ async function gotStream (stream) {
     if (!e.candidate) return
     let cand = JSON.stringify(e.candidate);
     console.log(cand);
-    callerIceCandidates.push(e.candidate);
+    // callerIceCandidates.push(e.candidate);
     // caller.addIceCandidate(e.candidate);
     // caller.onicecandidate = null;
   }
@@ -66,7 +68,7 @@ async function gotStream (stream) {
 }
 
 startCallButton.onclick = function() {
-  getVideo();
+  call();
 }
 
 
