@@ -9,6 +9,8 @@ let remoteDescription = document.getElementById("remoteDescription");
 let startCallButton = document.getElementById("startCallButton");
 let setAnswerButton = document.getElementById("submitAnswerButton");
 let answer = document.getElementById("answer");
+let callerIceCandidate = document.getElementById("callerIceCand");
+let receiverIceCandidate = document.getElementById("receiverIceCand");
 
 let callerIceCandidates = [];
 let receiverIceCandidates = [];
@@ -46,7 +48,7 @@ async function gotStream (stream) {
 
   caller.onicecandidate = e => {
     if (!e.candidate) return
-    console.log(e.candidate);
+    console.log(JSON.stringify(e.candidate));
     callerIceCandidates.push(e.candidate);
     // caller.addIceCandidate(e.candidate);
     // caller.onicecandidate = null;
@@ -92,7 +94,7 @@ async function receiverSendVideo() {
 
   receiver.onicecandidate = e => {
     if (!e.candidate) return
-    // console.log(JSON.stringify(e.candidate));
+    console.log(JSON.stringify(e.candidate));
     receiverIceCandidates.push(e.candidate);
     // receiver.onicecandidate = null;
   }
@@ -111,7 +113,7 @@ async function receiverSendVideo() {
 
 remoteDescriptionButton.onclick = function() {
   receiverSendVideo();
-  let candidate = new RTCIceCandidate(callerIceCandidates[1])
+  let candidate = new RTCIceCandidate(JSON.parse(callerIceCandidate.value));
   receiver.addIceCandidate(candidate);
 }
 
@@ -123,6 +125,6 @@ screenshotButton.onclick = function() {
 
 setAnswerButton.onclick = function() {
   caller.setRemoteDescription(JSON.parse(answer.value));
-  let candidate = new RTCIceCandidate(receiverIceCandidates[1]);
+  let candidate = new RTCIceCandidate(JSON.parse(receiverIceCandidate.value));
   caller.addIceCandidate(candidate);
 }
