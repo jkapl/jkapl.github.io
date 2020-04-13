@@ -48,7 +48,8 @@ async function gotStream (stream) {
 
   caller.onicecandidate = e => {
     if (!e.candidate) return
-    console.log(JSON.stringify(e.candidate));
+    let cand = JSON.stringify(e.candidate);
+    console.log(cand);
     callerIceCandidates.push(e.candidate);
     // caller.addIceCandidate(e.candidate);
     // caller.onicecandidate = null;
