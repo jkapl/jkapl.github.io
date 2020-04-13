@@ -95,7 +95,8 @@ async function receiverSendVideo() {
 
   receiver.onicecandidate = e => {
     if (!e.candidate) return
-    console.log(JSON.stringify(e.candidate));
+    let cand = JSON.stringify(e.candidate);
+    console.log(cand);
     receiverIceCandidates.push(e.candidate);
     // receiver.onicecandidate = null;
   }
