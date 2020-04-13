@@ -78,7 +78,7 @@ async function receiverSendVideo() {
 
   // let receiver = new RTCPeerConnection(server);
   console.log('gotStream')
-  myVideo2.srcObject = stream;
+  myVideo.srcObject = stream;
   stream.getTracks().forEach(track => receiver.addTrack(track, stream));
 
 
@@ -106,7 +106,7 @@ async function receiverSendVideo() {
   // };
 
   receiver.ontrack = e => {
-    yourVideo2.srcObject = e.streams[0];
+    yourVideo.srcObject = e.streams[0];
   }
 
   // event.preventDefault();  
