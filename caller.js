@@ -21,6 +21,11 @@ let server = {
 let caller = new RTCPeerConnection(server);
 let receiver = new RTCPeerConnection(server);
 
+const offerOptions = {
+  offerToReceiveVideo: 1,
+  offerToReceiveAudio: 1
+};
+
 // Caller
 // async function getVideo () {
 //   const stream = await navigator.mediaDevices.getUserMedia( { video: true });
@@ -29,7 +34,7 @@ let receiver = new RTCPeerConnection(server);
 
 async function call () {
 
-  const stream = await navigator.mediaDevices.getUserMedia( { video: true });
+  const stream = await navigator.mediaDevices.getUserMedia( { audio:true, video: true });
   // let caller = new RTCPeerConnection(server);
   console.log('calling')
   myVideo.srcObject = stream;
@@ -89,7 +94,7 @@ async function receiverSendVideo() {
   //   caller.setLocalDescription(offer);
   // });
 
-  let sessDescription = await receiver.createAnswer({configuration : {offerToReceiveVideo: 1}});
+  let sessDescription = await receiver.createAnswer();
   console.log(JSON.stringify(sessDescription))
 
   receiver.setLocalDescription(sessDescription)
@@ -102,15 +107,18 @@ async function receiverSendVideo() {
     // receiver.onicecandidate = null;
   }
 
-  // receiver.onaddstream = e => {
-  //   yourVideo2.srcObject = e.stream;
-  // };
+  // receiver.ontrack = e => {
+  //   console.log('receiver got track', e.track, e.streams);
+  //   yourVideo.srcObject = e.streams[0];
+  // } 
 
   receiver.ontrack = e => {
-    console.log('receiver got track', e.track, e.streams);
-    yourVideo.srcObject = e.streams[0];
-  } 
-
+    console.log('track event muted = ' + e.track.muted);
+    e.track.onunmute = () => {
+      console.log('track unmuted');
+      yourVideo.srcObject = e.streams[0];
+    }
+  }
 }
 
 remoteDescriptionButton.onclick = function() {
