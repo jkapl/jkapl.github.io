@@ -122,7 +122,7 @@ async function receiverSendVideo() {
   }
 }
 
-remoteDescriptionButton.onclick = function() {
+remoteDescriptionButton.onclick = async function() {
   await receiverSendVideo();
   let candidate = new RTCIceCandidate(JSON.parse(callerIceCandidate.value));
   receiver.addIceCandidate(candidate);
