@@ -60,6 +60,7 @@ async function call () {
   // };
 
   caller.ontrack = e => {
+    console.log('caller got track', e.track, e.streams);
     yourVideo.srcObject = e.streams[0];
   }
 
@@ -77,7 +78,7 @@ async function receiverSendVideo() {
   const stream = await navigator.mediaDevices.getUserMedia( { video: true });
 
   // let receiver = new RTCPeerConnection(server);
-  console.log('gotStream')
+  console.log('receiving')
   myVideo.srcObject = stream;
   stream.getTracks().forEach(track => receiver.addTrack(track, stream));
 
@@ -106,7 +107,7 @@ async function receiverSendVideo() {
   // };
 
   receiver.ontrack = e => {
-    console.log('got track', e.track, e.streams);
+    console.log('receiver got track', e.track, e.streams);
     yourVideo.srcObject = e.streams[0];
   } 
 
