@@ -79,7 +79,7 @@ startCallButton.onclick = function() {
 // receiver
 async function receiverSendVideo() {
 
-  // receiver.setRemoteDescription(JSON.parse(remoteDescription.value))
+  receiver.setRemoteDescription(JSON.parse(remoteDescription.value))
   const stream = await navigator.mediaDevices.getUserMedia( { video: true });
 
   // let receiver = new RTCPeerConnection(server);
@@ -95,10 +95,10 @@ async function receiverSendVideo() {
   // });
 
   let sessDescription = await receiver.createAnswer();
-  receiver.setRemoteDescription(JSON.parse(remoteDescription.value))
+
   console.log(JSON.stringify(sessDescription))
 
-  receiver.setLocalDescription(sessDescription)
+  await receiver.setLocalDescription(sessDescription)
 
   receiver.onicecandidate = e => {
     if (!e.candidate) return
@@ -123,7 +123,7 @@ async function receiverSendVideo() {
 }
 
 remoteDescriptionButton.onclick = function() {
-  receiverSendVideo();
+  await receiverSendVideo();
   let candidate = new RTCIceCandidate(JSON.parse(callerIceCandidate.value));
   receiver.addIceCandidate(candidate);
 }
