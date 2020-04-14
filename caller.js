@@ -1,7 +1,5 @@
 let myVideo = document.getElementById("me");
 let yourVideo = document.getElementById("you");
-let myVideo2 = document.getElementById("me2");
-let yourVideo2 = document.getElementById("you2");
 let screenshotButton = document.getElementById("screenshotButton");
 let screenshot = document.getElementById("screenshot");
 let remoteDescriptionButton = document.getElementById("submitRemoteDescription");
@@ -99,7 +97,7 @@ async function receiverSendVideo() {
     if (!e.candidate) return
     let cand = JSON.stringify(e.candidate);
     console.log(cand);
-    receiverIceCandidates.push(e.candidate);
+    // receiverIceCandidates.push(e.candidate);
     // receiver.onicecandidate = null;
   }
 
@@ -108,10 +106,9 @@ async function receiverSendVideo() {
   // };
 
   receiver.ontrack = e => {
+    console.log('got track', e.track, e.streams);
     yourVideo.srcObject = e.streams[0];
-  }
-
-  // event.preventDefault();  
+  } 
 
 }
 
@@ -121,14 +118,14 @@ remoteDescriptionButton.onclick = function() {
   receiver.addIceCandidate(candidate);
 }
 
-screenshotButton.onclick = function() {
-  screenshot.width = myVideo.videoWidth; 
-  screenshot.height = myVideo.videoHeight;
-  screenshot.getContext('2d').drawImage(myVideo, 0, 0); 
-}
-
 setAnswerButton.onclick = function() {
   caller.setRemoteDescription(JSON.parse(answer.value));
   let candidate = new RTCIceCandidate(JSON.parse(receiverIceCandidate.value));
   caller.addIceCandidate(candidate);
+}
+
+screenshotButton.onclick = function() {
+  screenshot.width = myVideo.videoWidth; 
+  screenshot.height = myVideo.videoHeight;
+  screenshot.getContext('2d').drawImage(myVideo, 0, 0); 
 }
