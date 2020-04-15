@@ -49,7 +49,7 @@ async function call () {
   caller.setLocalDescription(sessDescription)
 
   caller.onicegatheringstatechange = () => {
-    console.log(pc.iceGatheringState);
+    console.log(caller.iceGatheringState);
   }
 
 
