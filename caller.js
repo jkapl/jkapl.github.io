@@ -50,13 +50,16 @@ async function call () {
 
   caller.onicegatheringstatechange = () => {
     console.log(caller.iceGatheringState);
-  }
+    if (caller.iceGatheringState === 'complete') {
+      console.log(JSON.stringify(callerIceCandidates));
+    }
+  };
 
 
   caller.onicecandidate = e => {
     if (!e.candidate) return
-    let cand = JSON.stringify(e.candidate);
-    console.log(cand);
+    // let cand = JSON.stringify(e.candidate);
+    // console.log(cand);
     callerIceCandidates.push(e.candidate);
     // caller.addIceCandidate(e.candidate);
     // caller.onicecandidate = null;
@@ -104,11 +107,18 @@ async function receiverSendVideo() {
 
   receiver.onicecandidate = e => {
     if (!e.candidate) return
-    let cand = JSON.stringify(e.candidate);
-    console.log(cand);
-    // receiverIceCandidates.push(e.candidate);
+    // let cand = JSON.stringify(e.candidate);
+    // console.log(cand);
+    receiverIceCandidates.push(e.candidate);
     // receiver.onicecandidate = null;
   }
+
+  receiver.onicegatheringstatechange = () => {
+    console.log(receiver.iceGatheringState);
+    if (receiver.iceGatheringState === 'complete') {
+      console.log(JSON.stringify(receiverIceCandidates));
+    }
+  };
 
   // receiver.ontrack = e => {
   //   console.log('receiver got track', e.track, e.streams);
@@ -137,13 +147,22 @@ setAnswerButton.onclick = function() {
 }
 
 callerIceCandidateButton.onclick = function () {
-  let candidate = new RTCIceCandidate(JSON.parse(callerIceCandidate.value));  
-  receiver.addIceCandidate(candidate);
+  let candidates = JSON.parse(callerIceCandidate.value);
+  for (let i = 0; i < candidates.length; i++) {
+    let candidate = new RTCIceCandidate(candidates[i]);
+    receiver.addIceCandidate(candidate);
+  }
+  // let candidate = new RTCIceCandidate(JSON.parse(callerIceCandidate.value));  
+  // receiver.addIceCandidate(candidate);
 }
 
 receiverIceCandidateButton.onclick = function () {
-  let candidate = new RTCIceCandidate(JSON.parse(receiverIceCandidate.value));  
-  caller.addIceCandidate(candidate);
+  let candidates = JSON.parse(receiverIceCandidates.value);
+  for (let i = 0; i < candidates.length; i++) {
+    let candidate = new RTCIceCandidate(candidates[i]);  
+    caller.addIceCandidate(candidate);
+  }
+  // caller.addIceCandidate(candidate);
 }
 
 screenshotButton.onclick = function() {
