@@ -55,6 +55,10 @@ async function call () {
     }
   };
 
+  caller.oniceconnectionstatechange = () => {
+    console.log(caller.iceConnectionState);
+  }
+
 
   caller.onicecandidate = e => {
     if (!e.candidate) return
@@ -119,6 +123,10 @@ async function receiverSendVideo() {
       console.log(JSON.stringify(receiverIceCandidates));
     }
   };
+
+  receiver.oniceconnectionstatechange = () => {
+    console.log(receiver.iceConnectionState);
+  }
 
   // receiver.ontrack = e => {
   //   console.log('receiver got track', e.track, e.streams);
