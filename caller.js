@@ -9,6 +9,8 @@ let setAnswerButton = document.getElementById("submitAnswerButton");
 let answer = document.getElementById("answer");
 let callerIceCandidate = document.getElementById("callerIceCand");
 let receiverIceCandidate = document.getElementById("receiverIceCand");
+let callerIceCandidateButton = document.getElementById("submitCallerIce")
+let receiverIceCandidateButton = document.getElementById("submitReceiverIce")
 
 let callerIceCandidates = [];
 let receiverIceCandidates = [];
@@ -27,11 +29,6 @@ const offerOptions = {
 };
 
 // Caller
-// async function getVideo () {
-//   const stream = await navigator.mediaDevices.getUserMedia( { video: true });
-//   gotStream(stream);
-// }
-
 async function call () {
 
   const stream = await navigator.mediaDevices.getUserMedia( { audio:true, video: true });
@@ -81,7 +78,7 @@ startCallButton.onclick = function() {
 }
 
 
-// receiver
+// callee
 async function receiverSendVideo() {
 
   receiver.setRemoteDescription(JSON.parse(remoteDescription.value))
@@ -129,13 +126,23 @@ async function receiverSendVideo() {
 
 remoteDescriptionButton.onclick = async function() {
   await receiverSendVideo();
-  let candidate = new RTCIceCandidate(JSON.parse(callerIceCandidate.value));
-  receiver.addIceCandidate(candidate);
+  // let candidate = new RTCIceCandidate(JSON.parse(callerIceCandidate.value));
+  // receiver.addIceCandidate(candidate);
 }
 
 setAnswerButton.onclick = function() {
   caller.setRemoteDescription(JSON.parse(answer.value));
-  let candidate = new RTCIceCandidate(JSON.parse(receiverIceCandidate.value));
+  // let candidate = new RTCIceCandidate(JSON.parse(receiverIceCandidate.value));
+  // caller.addIceCandidate(candidate);
+}
+
+callerIceCandidateButton.onclick = function () {
+  let candidate = new RTCIceCandidate(JSON.parse(callerIceCandidate.value));  
+  receiver.addIceCandidate(candidate);
+}
+
+receiverIceCandidateButton.onclick = function () {
+  let candidate = new RTCIceCandidate(JSON.parse(receiverIceCandidate.value));  
   caller.addIceCandidate(candidate);
 }
 
