@@ -51,11 +51,16 @@ async function call () {
 
   caller.setLocalDescription(sessDescription)
 
+  caller.onicegatheringstatechange = () => {
+    console.log(pc.iceGatheringState);
+  }
+
+
   caller.onicecandidate = e => {
     if (!e.candidate) return
     let cand = JSON.stringify(e.candidate);
     console.log(cand);
-    // callerIceCandidates.push(e.candidate);
+    callerIceCandidates.push(e.candidate);
     // caller.addIceCandidate(e.candidate);
     // caller.onicecandidate = null;
   }
